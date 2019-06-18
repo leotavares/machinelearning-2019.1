@@ -14,10 +14,13 @@ from alpha_vantage.timeseries import TimeSeries
 import random
 
 #file = open("C:\\Users\\Daniel\\Desktop\\Faculdade\\COMPUTAÇÃO\\Inteligência Artificial\\Aprendizado de Máquina\\Trabalhos\\T2\\nasdaqlisted.txt")
+
+#Tem que ser usado o caminho relativo ao arquivo nasdaqlisted.txt, e não o absoluto. Caso contrário, o programa funcionará somente na máquina na qual ele foi desenvolvido.
 file = open("nasdaqlisted.txt")
 strFile = file.read() #lê todo o arquivo
 strFile = strFile.splitlines() #lista sem caracter '\n'
 
+#A chave a ser usada é a de quem vai rodar o programa e pode ser obtida gratuitamente no site da Alpha Vantage
 #ts = TimeSeries(key='614V0UUUNIY1NDMF', output_format='pandas') #Objeto da classe TimeSeries
 ts = TimeSeries(key='S55HHK4M4E665SA7', output_format='pandas') #Objeto da classe TimeSeries
 
@@ -27,6 +30,7 @@ data_list = []  #lista contendo dataframes com dados das empresas
 for i in range (5):
     symbol_list.append(strFile[random.randint(1,3445)])
 
+#Intervalo foi aumentado para 5 minutos devido às limitações da chave gratuita do Alpha Vantage (5 chamadas por minuto e 500 chamadas por dia)
 for s in symbol_list:
     data_list.append(ts.get_intraday(symbol= s ,interval='5min', outputsize='full'))
 
