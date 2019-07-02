@@ -11,11 +11,11 @@ import numpy as np
 
 from sklearn.cluster import DBSCAN
 from sklearn import metrics
-#from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
-from sklearn.model_selection import cross_val_score
+#from sklearn.model_selection import cross_val_score
 
 import matplotlib.pyplot as plt
 
@@ -57,14 +57,14 @@ class_data = np.array(csvStock.iloc[:,-1])
 #no momento, usamos apenas os dados de treinamento
 #a utilização dos dados de teste será implementada posteriormente
 
-#X_train, X_test, y_train, y_test = train_test_split(train_data, class_data, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(train_data, class_data, test_size=0.2)
 
-labels_true = np.array(class_data)
+labels_true = np.array(y_train)
 
 #aqui é executado o algoritmo de agrupamento baseado em densidade DBSCAN
 #o valor eps=0.003 obteve o melhor resultado conforme visualização gráfica
 
-db = DBSCAN(eps=0.003, min_samples=10).fit(train_data)
+db = DBSCAN(eps=0.003, min_samples=10).fit(X_train)
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
 labels = db.labels_
@@ -74,6 +74,7 @@ n_noise_ = list(labels).count(-1)
 
 #abaixo estão algumas medidas obtidas do DBSCAN
 
+print('Medidas Obtidas Usando o DBSCAN e os Dados Com Todos os Componentes')
 print('Número estimado de grupos: %d' % n_clusters_)
 print('Número estimado de outliers: %d' % n_noise_)
 print("Homogeneidade: %0.3f" % metrics.homogeneity_score(labels_true, labels))
@@ -81,7 +82,11 @@ print("Completude: %0.3f" % metrics.completeness_score(labels_true, labels))
 print("V-medida: %0.3f" % metrics.v_measure_score(labels_true, labels))
 print("Índice Rand Ajustado: %0.3f" % metrics.adjusted_rand_score(labels_true, labels))
 print("Informação Mútua Ajustada: %0.3f" % metrics.adjusted_mutual_info_score(labels_true, labels))
-print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(train_data, labels))
+print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
+print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
+print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
+print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(X_train, labels))
+print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(X_train, labels))
 
 #esta parte gera e mostra o gráfico dos grupos obtidos com o DBSCAN
 #na melhor configuração, foi obtido um único grupo e 4 outliers
@@ -95,11 +100,11 @@ for k, col in zip(unique_labels, colors):
 
     class_member_mask = (labels == k)
 
-    xy = train_data[class_member_mask & core_samples_mask]
+    xy = X_train[class_member_mask & core_samples_mask]
     plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
              markeredgecolor='k', markersize=14)
 
-    xy = train_data[class_member_mask & ~core_samples_mask]
+    xy = X_train[class_member_mask & ~core_samples_mask]
     plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
              markeredgecolor='k', markersize=6)
 
@@ -109,9 +114,24 @@ plt.show()
 #esta parte é uma comparação com o k-Means
 #foi utilizada a configuração com 5 clusters
 
-kmeans = KMeans(n_clusters=5, random_state=0).fit_predict(train_data)
+kmeans = KMeans(n_clusters=5, random_state=0).fit(X_train)
+labels = kmeans.labels_
 
-plt.scatter(train_data[:, 0], train_data[:, 1], c=kmeans)
+print('')
+print('Medidas Obtidas Usando o KMeans de 5 Clusters e os Dados Com Todos os Componentes')
+print("Homogeneidade: %0.3f" % metrics.homogeneity_score(labels_true, labels))
+print("Completude: %0.3f" % metrics.completeness_score(labels_true, labels))
+print("V-medida: %0.3f" % metrics.v_measure_score(labels_true, labels))
+print("Índice Rand Ajustado: %0.3f" % metrics.adjusted_rand_score(labels_true, labels))
+print("Informação Mútua Ajustada: %0.3f" % metrics.adjusted_mutual_info_score(labels_true, labels))
+print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
+print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
+print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
+print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(X_train, labels))
+print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(X_train, labels))
+
+
+plt.scatter(X_train[:, 0], X_train[:, 1], c=labels.astype(np.float))
 plt.title("Divisão em grupos estimada")
 plt.show()
 
@@ -124,12 +144,25 @@ estimators = [('k_means_8', KMeans(n_clusters=8)),
 fignum = 0
 fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(4,6))
 fig.subplots_adjust(hspace=0.7)
-titles = ['8 clusters', '3 clusters']
+titles = ['8 Clusters', '3 Clusters']
 for name, est in estimators:
-    est.fit(train_data)
+    est.fit(X_train)
     labels = est.labels_
 
-    axs[fignum].scatter(train_data[:, 3], train_data[:, 0],
+    print('')
+    print('Medidas Obtidas Usando o KMeans de %s e os Dados Com Todos os Componentes' % titles[fignum])
+    print("Homogeneidade: %0.3f" % metrics.homogeneity_score(labels_true, labels))
+    print("Completude: %0.3f" % metrics.completeness_score(labels_true, labels))
+    print("V-medida: %0.3f" % metrics.v_measure_score(labels_true, labels))
+    print("Índice Rand Ajustado: %0.3f" % metrics.adjusted_rand_score(labels_true, labels))
+    print("Informação Mútua Ajustada: %0.3f" % metrics.adjusted_mutual_info_score(labels_true, labels))
+    print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
+    print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
+    print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels)) 
+    print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(X_train, labels))
+    print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(X_train, labels))
+
+    axs[fignum].scatter(X_train[:, 3], X_train[:, 0],
                   c=labels.astype(np.float), edgecolor='k')
     axs[fignum].set_xticklabels([])
     axs[fignum].set_yticklabels([])
@@ -140,22 +173,22 @@ for name, est in estimators:
     fignum = fignum + 1
 plt.show()
 
-x = StandardScaler().fit_transform(train_data)
+x = StandardScaler().fit_transform(X_train)
 pca = PCA(n_components=2)
 principalComponents = pd.DataFrame(pca.fit_transform(x))
 
 principalComponents.plot.scatter(x=0,y=1)
 plt.show()
 
-df_class = pd.DataFrame(class_data)
+df_class = pd.DataFrame(y_train)
 principalComponents_train = pd.concat([principalComponents,df_class],axis=1)
 
 #aqui é executado o algoritmo de agrupamento baseado em densidade DBSCAN
 #o valor eps=0.003 obteve o melhor resultado conforme visualização gráfica
 
-labels_true = np.array(class_data)
+labels_true = np.array(y_train)
 
-db = DBSCAN(eps=0.10, min_samples=10).fit(principalComponents)
+db = DBSCAN(eps=0.17, min_samples=10).fit(principalComponents)
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
 labels = db.labels_
@@ -166,6 +199,7 @@ n_noise_ = list(labels).count(-1)
 #abaixo estão algumas medidas obtidas do DBSCAN
 
 print('')
+print('Medidas Obtidas Usando o DBSCAN, os Dados de Treinamento, e os Dois Componentes Principais')
 print('Número estimado de grupos: %d' % n_clusters_)
 print('Número estimado de outliers: %d' % n_noise_)
 print("Homogeneidade: %0.3f" % metrics.homogeneity_score(labels_true, labels))
@@ -173,6 +207,10 @@ print("Completude: %0.3f" % metrics.completeness_score(labels_true, labels))
 print("V-medida: %0.3f" % metrics.v_measure_score(labels_true, labels))
 print("Índice Rand Ajustado: %0.3f" % metrics.adjusted_rand_score(labels_true, labels))
 print("Informação Mútua Ajustada: %0.3f" % metrics.adjusted_mutual_info_score(labels_true, labels))
+print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
+print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
+print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
+print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
 print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
 
 #esta parte gera e mostra o gráfico dos grupos obtidos com o DBSCAN
@@ -203,6 +241,19 @@ plt.show()
 
 kmeans = KMeans(n_clusters=5, random_state=0).fit_predict(principalComponents)
 
+print('')
+print('Medidas Obtidas Usando o KMeans de 5 Clusters, os Dados de Treinamento, e os Dois Componentes Principais')
+print("Homogeneidade: %0.3f" % metrics.homogeneity_score(labels_true, labels))
+print("Completude: %0.3f" % metrics.completeness_score(labels_true, labels))
+print("V-medida: %0.3f" % metrics.v_measure_score(labels_true, labels))
+print("Índice Rand Ajustado: %0.3f" % metrics.adjusted_rand_score(labels_true, labels))
+print("Informação Mútua Ajustada: %0.3f" % metrics.adjusted_mutual_info_score(labels_true, labels))
+print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
+print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
+print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
+print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
+print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
+
 plt.scatter(principalComponents_train.iloc[:, 0], principalComponents_train.iloc[:, 1], c=kmeans)
 plt.title("Divisão em grupos estimada")
 plt.show()
@@ -216,10 +267,23 @@ estimators = [('k_means_8', KMeans(n_clusters=8)),
 fignum = 0
 fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(4,6))
 fig.subplots_adjust(hspace=0.7)
-titles = ['8 clusters', '3 clusters']
+titles = ['8 Clusters', '3 Clusters']
 for name, est in estimators:
     est.fit(principalComponents)
     labels = est.labels_
+
+    print('')
+    print('Medidas Obtidas Usando o KMeans de %s, os Dados de Treinamento, e os Dois Componentes Principais' % titles[fignum]	)
+    print("Homogeneidade: %0.3f" % metrics.homogeneity_score(labels_true, labels))
+    print("Completude: %0.3f" % metrics.completeness_score(labels_true, labels))
+    print("V-medida: %0.3f" % metrics.v_measure_score(labels_true, labels))
+    print("Índice Rand Ajustado: %0.3f" % metrics.adjusted_rand_score(labels_true, labels))
+    print("Informação Mútua Ajustada: %0.3f" % metrics.adjusted_mutual_info_score(labels_true, labels))
+    print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
+    print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
+    print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
+    print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
+    print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
 
     axs[fignum].scatter(principalComponents_train.iloc[:, 0], principalComponents_train.iloc[:, 1],
                   c=labels.astype(np.float), edgecolor='k')
@@ -232,7 +296,6 @@ for name, est in estimators:
     fignum = fignum + 1
 plt.show()
 
-'''
 x = StandardScaler().fit_transform(X_test)
 pca = PCA(n_components=2)
 principalComponents = pd.DataFrame(pca.fit_transform(x))
@@ -249,7 +312,7 @@ principalComponents_test = pd.concat([principalComponents,df_class],axis=1)
 
 labels_true = np.array(y_test)
 
-db = DBSCAN(eps=0.10, min_samples=10).fit(principalComponents)
+db = DBSCAN(eps=0.20, min_samples=10).fit(principalComponents)
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
 labels = db.labels_
@@ -260,6 +323,7 @@ n_noise_ = list(labels).count(-1)
 #abaixo estão algumas medidas obtidas do DBSCAN
 
 print('')
+print('Medidas Obtidas Usando o DBSCAN, os Dados de Teste, e os Dois Componentes Principais')
 print('Número estimado de grupos: %d' % n_clusters_)
 print('Número estimado de outliers: %d' % n_noise_)
 print("Homogeneidade: %0.3f" % metrics.homogeneity_score(labels_true, labels))
@@ -267,12 +331,54 @@ print("Completude: %0.3f" % metrics.completeness_score(labels_true, labels))
 print("V-medida: %0.3f" % metrics.v_measure_score(labels_true, labels))
 print("Índice Rand Ajustado: %0.3f" % metrics.adjusted_rand_score(labels_true, labels))
 print("Informação Mútua Ajustada: %0.3f" % metrics.adjusted_mutual_info_score(labels_true, labels))
+print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
+print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
+print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
+#print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
 #print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
+#print("Coeficiente Silhueta Para Cada Amostra: %0.3f" % metrics.silhouette_samples(principalComponents, labels))
+
+#esta parte gera e mostra o gráfico dos grupos obtidos com o DBSCAN
+#na melhor configuração, foi obtido um único grupo e 4 outliers
+
+unique_labels = set(labels)
+colors = [plt.cm.Spectral(each)
+          for each in np.linspace(0, 1, len(unique_labels))]
+for k, col in zip(unique_labels, colors):
+    if k == -1:
+        col = [0, 0, 0, 1]
+
+    class_member_mask = (labels == k)
+
+    xy = principalComponents_test[class_member_mask & core_samples_mask]
+    plt.plot(xy.iloc[:, 0], xy.iloc[:, 1], 'o', markerfacecolor=tuple(col),
+             markeredgecolor='k', markersize=14)
+
+    xy = principalComponents_test[class_member_mask & ~core_samples_mask]
+    plt.plot(xy.iloc[:, 0], xy.iloc[:, 1], 'o', markerfacecolor=tuple(col),
+             markeredgecolor='k', markersize=6)
+
+plt.title('Número estimado de grupos: %d' % n_clusters_)
+plt.show()
 
 #esta parte é uma comparação com o k-Means
 #foi utilizada a configuração com 5 clusters
 
 kmeans = KMeans(n_clusters=5, random_state=0).fit_predict(principalComponents)
+
+print('')
+print('Medidas Obtidas Usando o KMeans de 5 Clusters, os Dados de Teste, e os Dois Componentes Principais')
+print("Homogeneidade: %0.3f" % metrics.homogeneity_score(labels_true, labels))
+print("Completude: %0.3f" % metrics.completeness_score(labels_true, labels))
+print("V-medida: %0.3f" % metrics.v_measure_score(labels_true, labels))
+print("Índice Rand Ajustado: %0.3f" % metrics.adjusted_rand_score(labels_true, labels))
+print("Informação Mútua Ajustada: %0.3f" % metrics.adjusted_mutual_info_score(labels_true, labels))
+print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
+print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
+print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
+#print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
+#print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
+#print("Coeficiente Silhueta Para Cada Amostra: %0.3f" % metrics.silhouette_samples(principalComponents, labels))
 
 plt.scatter(principalComponents_test.iloc[:, 0], principalComponents_test.iloc[:, 1], c=kmeans)
 plt.title("Divisão em grupos estimada")
@@ -287,10 +393,24 @@ estimators = [('k_means_8', KMeans(n_clusters=8)),
 fignum = 0
 fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(4,6))
 fig.subplots_adjust(hspace=0.7)
-titles = ['8 clusters', '3 clusters']
+titles = ['8 Clusters', '3 Clusters']
 for name, est in estimators:
     est.fit(principalComponents)
     labels = est.labels_
+
+    print('')
+    print('Medidas Obtidas Usando o KMeans de %s, os Dados de Teste, e os Dois Componentes Principais' % titles[fignum])
+    print("Homogeneidade: %0.3f" % metrics.homogeneity_score(labels_true, labels))
+    print("Completude: %0.3f" % metrics.completeness_score(labels_true, labels))
+    print("V-medida: %0.3f" % metrics.v_measure_score(labels_true, labels))
+    print("Índice Rand Ajustado: %0.3f" % metrics.adjusted_rand_score(labels_true, labels))
+    print("Informação Mútua Ajustada: %0.3f" % metrics.adjusted_mutual_info_score(labels_true, labels))
+    print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
+    print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
+    print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
+   #print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
+   #print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
+   #print("Coeficiente Silhueta Para Cada Amostra: %0.3f" % metrics.silhouette_samples(principalComponents, labels))
 
     axs[fignum].scatter(principalComponents_test.iloc[:, 0], principalComponents_test.iloc[:, 1],
                   c=labels.astype(np.float), edgecolor='k')
@@ -302,4 +422,3 @@ for name, est in estimators:
 
     fignum = fignum + 1
 plt.show()
-'''
