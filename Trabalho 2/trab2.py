@@ -28,6 +28,8 @@ caminhos = [os.path.join(pasta, nome) for nome in os.listdir(pasta)]
 arquivos = [arq for arq in caminhos if os.path.isfile(arq)]
 csvs = [arq for arq in arquivos if arq.lower().endswith(".csv")]
 
+arquivo = open("saída.txt","w")
+
 csvStock = []
 
 for arq in csvs:
@@ -88,6 +90,21 @@ print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_tr
 print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(X_train, labels))
 print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(X_train, labels))
 
+arquivo.write('Medidas Obtidas Usando o DBSCAN e os Dados Com Todos os Componentes\n')
+arquivo.write('Número estimado de grupos: %d\n' % n_clusters_)
+arquivo.write('Número estimado de outliers: %d\n' % n_noise_)
+arquivo.write("Homogeneidade: %0.3f\n" % metrics.homogeneity_score(labels_true, labels))
+arquivo.write("Completude: %0.3f\n" % metrics.completeness_score(labels_true, labels))
+arquivo.write("V-medida: %0.3f\n" % metrics.v_measure_score(labels_true, labels))
+arquivo.write("Índice Rand Ajustado: %0.3f\n" % metrics.adjusted_rand_score(labels_true, labels))
+arquivo.write("Informação Mútua Ajustada: %0.3f\n" % metrics.adjusted_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
+arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels))
+arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(X_train, labels))
+arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(X_train, labels))
+
+
 #esta parte gera e mostra o gráfico dos grupos obtidos com o DBSCAN
 #na melhor configuração, foi obtido um único grupo e 4 outliers
 
@@ -130,6 +147,18 @@ print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_tr
 print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(X_train, labels))
 print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(X_train, labels))
 
+arquivo.write('\n')
+arquivo.write('Medidas Obtidas Usando o KMeans de 5 Clusters e os Dados Com Todos os Componentes\n')
+arquivo.write("Homogeneidade: %0.3f\n" % metrics.homogeneity_score(labels_true, labels))
+arquivo.write("Completude: %0.3f\n" % metrics.completeness_score(labels_true, labels))
+arquivo.write("V-medida: %0.3f\n" % metrics.v_measure_score(labels_true, labels))
+arquivo.write("Índice Rand Ajustado: %0.3f\n" % metrics.adjusted_rand_score(labels_true, labels))
+arquivo.write("Informação Mútua Ajustada: %0.3f\n" % metrics.adjusted_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
+arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels))
+arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(X_train, labels))
+arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(X_train, labels))
 
 plt.scatter(X_train[:, 0], X_train[:, 1], c=labels.astype(np.float))
 plt.title("Divisão em grupos estimada")
@@ -161,6 +190,19 @@ for name, est in estimators:
     print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels)) 
     print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(X_train, labels))
     print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(X_train, labels))
+
+    arquivo.write('\n')
+    arquivo.write('Medidas Obtidas Usando o KMeans de %s e os Dados Com Todos os Componentes\n' % titles[fignum])
+    arquivo.write("Homogeneidade: %0.3f\n" % metrics.homogeneity_score(labels_true, labels))
+    arquivo.write("Completude: %0.3f\n" % metrics.completeness_score(labels_true, labels))
+    arquivo.write("V-medida: %0.3f\n" % metrics.v_measure_score(labels_true, labels))
+    arquivo.write("Índice Rand Ajustado: %0.3f\n" % metrics.adjusted_rand_score(labels_true, labels))
+    arquivo.write("Informação Mútua Ajustada: %0.3f\n" % metrics.adjusted_mutual_info_score(labels_true, labels))
+    arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
+    arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
+    arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels)) 
+    arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(X_train, labels))
+    arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(X_train, labels))
 
     axs[fignum].scatter(X_train[:, 3], X_train[:, 0],
                   c=labels.astype(np.float), edgecolor='k')
@@ -213,6 +255,21 @@ print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_tr
 print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
 print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
 
+arquivo.write('\n')
+arquivo.write('Medidas Obtidas Usando o DBSCAN, os Dados de Treinamento, e os Dois Componentes Principais\n')
+arquivo.write('Número estimado de grupos: %d\n' % n_clusters_)
+arquivo.write('Número estimado de outliers: %d\n' % n_noise_)
+arquivo.write("Homogeneidade: %0.3f\n" % metrics.homogeneity_score(labels_true, labels))
+arquivo.write("Completude: %0.3f\n" % metrics.completeness_score(labels_true, labels))
+arquivo.write("V-medida: %0.3f\n" % metrics.v_measure_score(labels_true, labels))
+arquivo.write("Índice Rand Ajustado: %0.3f\n" % metrics.adjusted_rand_score(labels_true, labels))
+arquivo.write("Informação Mútua Ajustada: %0.3f\n" % metrics.adjusted_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
+arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels))
+arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
+arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(principalComponents, labels))
+
 #esta parte gera e mostra o gráfico dos grupos obtidos com o DBSCAN
 #na melhor configuração, foi obtido um único grupo e 4 outliers
 
@@ -254,6 +311,19 @@ print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_tr
 print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
 print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
 
+arquivo.write('\n')
+arquivo.write('Medidas Obtidas Usando o KMeans de 5 Clusters, os Dados de Treinamento, e os Dois Componentes Principais\n')
+arquivo.write("Homogeneidade: %0.3f\n" % metrics.homogeneity_score(labels_true, labels))
+arquivo.write("Completude: %0.3f\n" % metrics.completeness_score(labels_true, labels))
+arquivo.write("V-medida: %0.3f\n" % metrics.v_measure_score(labels_true, labels))
+arquivo.write("Índice Rand Ajustado: %0.3f\n" % metrics.adjusted_rand_score(labels_true, labels))
+arquivo.write("Informação Mútua Ajustada: %0.3f\n" % metrics.adjusted_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
+arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels))
+arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
+arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(principalComponents, labels))
+
 plt.scatter(principalComponents_train.iloc[:, 0], principalComponents_train.iloc[:, 1], c=kmeans)
 plt.title("Divisão em grupos estimada")
 plt.show()
@@ -284,6 +354,19 @@ for name, est in estimators:
     print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
     print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
     print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
+
+    arquivo.write('\n')
+    arquivo.write('Medidas Obtidas Usando o KMeans de %s, os Dados de Treinamento, e os Dois Componentes Principais\n' % titles[fignum]	)
+    arquivo.write("Homogeneidade: %0.3f\n" % metrics.homogeneity_score(labels_true, labels))
+    arquivo.write("Completude: %0.3f\n" % metrics.completeness_score(labels_true, labels))
+    arquivo.write("V-medida: %0.3f\n" % metrics.v_measure_score(labels_true, labels))
+    arquivo.write("Índice Rand Ajustado: %0.3f\n" % metrics.adjusted_rand_score(labels_true, labels))
+    arquivo.write("Informação Mútua Ajustada: %0.3f\n" % metrics.adjusted_mutual_info_score(labels_true, labels))
+    arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
+    arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
+    arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels))
+    arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
+    arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(principalComponents, labels))
 
     axs[fignum].scatter(principalComponents_train.iloc[:, 0], principalComponents_train.iloc[:, 1],
                   c=labels.astype(np.float), edgecolor='k')
@@ -338,6 +421,22 @@ print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_tr
 #print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
 #print("Coeficiente Silhueta Para Cada Amostra: %0.3f" % metrics.silhouette_samples(principalComponents, labels))
 
+arquivo.write('\n')
+arquivo.write('Medidas Obtidas Usando o DBSCAN, os Dados de Teste, e os Dois Componentes Principais\n')
+arquivo.write('Número estimado de grupos: %d\n' % n_clusters_)
+arquivo.write('Número estimado de outliers: %d\n' % n_noise_)
+arquivo.write("Homogeneidade: %0.3f\n" % metrics.homogeneity_score(labels_true, labels))
+arquivo.write("Completude: %0.3f\n" % metrics.completeness_score(labels_true, labels))
+arquivo.write("V-medida: %0.3f\n" % metrics.v_measure_score(labels_true, labels))
+arquivo.write("Índice Rand Ajustado: %0.3f\n" % metrics.adjusted_rand_score(labels_true, labels))
+arquivo.write("Informação Mútua Ajustada: %0.3f\n" % metrics.adjusted_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
+arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels))
+#arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
+#arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(principalComponents, labels))
+#arquivo.write("Coeficiente Silhueta Para Cada Amostra: %0.3f\n" % metrics.silhouette_samples(principalComponents, labels))
+
 #esta parte gera e mostra o gráfico dos grupos obtidos com o DBSCAN
 #na melhor configuração, foi obtido um único grupo e 4 outliers
 
@@ -380,6 +479,20 @@ print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_tr
 #print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
 #print("Coeficiente Silhueta Para Cada Amostra: %0.3f" % metrics.silhouette_samples(principalComponents, labels))
 
+arquivo.write('\n')
+arquivo.write('Medidas Obtidas Usando o KMeans de 5 Clusters, os Dados de Teste, e os Dois Componentes Principais\n')
+arquivo.write("Homogeneidade: %0.3f\n" % metrics.homogeneity_score(labels_true, labels))
+arquivo.write("Completude: %0.3f\n" % metrics.completeness_score(labels_true, labels))
+arquivo.write("V-medida: %0.3f\n" % metrics.v_measure_score(labels_true, labels))
+arquivo.write("Índice Rand Ajustado: %0.3f\n" % metrics.adjusted_rand_score(labels_true, labels))
+arquivo.write("Informação Mútua Ajustada: %0.3f\n" % metrics.adjusted_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
+arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
+arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels))
+#arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
+#arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(principalComponents, labels))
+#arquivo.write("Coeficiente Silhueta Para Cada Amostra: %0.3f\n" % metrics.silhouette_samples(principalComponents, labels))
+
 plt.scatter(principalComponents_test.iloc[:, 0], principalComponents_test.iloc[:, 1], c=kmeans)
 plt.title("Divisão em grupos estimada")
 plt.show()
@@ -412,6 +525,20 @@ for name, est in estimators:
    #print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
    #print("Coeficiente Silhueta Para Cada Amostra: %0.3f" % metrics.silhouette_samples(principalComponents, labels))
 
+    arquivo.write('\n')
+    arquivo.write('Medidas Obtidas Usando o KMeans de %s, os Dados de Teste, e os Dois Componentes Principais\n' % titles[fignum])
+    arquivo.write("Homogeneidade: %0.3f\n" % metrics.homogeneity_score(labels_true, labels))
+    arquivo.write("Completude: %0.3f\n" % metrics.completeness_score(labels_true, labels))
+    arquivo.write("V-medida: %0.3f\n" % metrics.v_measure_score(labels_true, labels))
+    arquivo.write("Índice Rand Ajustado: %0.3f\n" % metrics.adjusted_rand_score(labels_true, labels))
+    arquivo.write("Informação Mútua Ajustada: %0.3f\n" % metrics.adjusted_mutual_info_score(labels_true, labels))
+    arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
+    arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
+    arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels))
+   #arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
+   #arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(principalComponents, labels))
+   #arquivo.write("Coeficiente Silhueta Para Cada Amostra: %0.3f\n" % metrics.silhouette_samples(principalComponents, labels))
+
     axs[fignum].scatter(principalComponents_test.iloc[:, 0], principalComponents_test.iloc[:, 1],
                   c=labels.astype(np.float), edgecolor='k')
     axs[fignum].set_xticklabels([])
@@ -422,3 +549,5 @@ for name, est in estimators:
 
     fignum = fignum + 1
 plt.show()
+
+arquivo.close()

@@ -1,0 +1,141 @@
+Medidas Obtidas Usando o DBSCAN e os Dados Com Todos os Componentes
+Número estimado de grupos: 1
+Número estimado de outliers: 4
+Homogeneidade: 1.000
+Completude: -0.000
+V-medida: -0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: -0.000
+Informação Mútua Normalizada: -0.000
+Informação Mútua: -0.000
+Índice Fowlkes-Mallows: 0.997
+Coeficiente Calinski-Harabaz: 217.921
+Coeficiente Silhueta: 0.905
+
+Medidas Obtidas Usando o KMeans de 5 Clusters e os Dados Com Todos os Componentes
+Homogeneidade: 1.000
+Completude: -0.000
+V-medida: -0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: -0.000
+Informação Mútua Normalizada: -0.000
+Informação Mútua: -0.000
+Índice Fowlkes-Mallows: 0.626
+Coeficiente Calinski-Harabaz: 631.305
+Coeficiente Silhueta: 0.259
+
+Medidas Obtidas Usando o KMeans de 8 Clusters e os Dados Com Todos os Componentes
+Homogeneidade: 1.000
+Completude: -0.000
+V-medida: -0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: -0.000
+Informação Mútua Normalizada: -0.000
+Informação Mútua: -0.000
+Índice Fowlkes-Mallows: 0.515
+Coeficiente Calinski-Harabaz: 600.446
+Coeficiente Silhueta: 0.271
+
+Medidas Obtidas Usando o KMeans de 3 Clusters e os Dados Com Todos os Componentes
+Homogeneidade: 1.000
+Completude: -0.000
+V-medida: -0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: -0.000
+Informação Mútua Normalizada: -0.000
+Informação Mútua: -0.000
+Índice Fowlkes-Mallows: 0.711
+Coeficiente Calinski-Harabaz: 694.965
+Coeficiente Silhueta: 0.286
+
+Medidas Obtidas Usando o DBSCAN, os Dados de Treinamento, e os Dois Componentes Principais
+Número estimado de grupos: 4
+Número estimado de outliers: 461
+Homogeneidade: 1.000
+Completude: 0.000
+V-medida: 0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: 0.000
+Informação Mútua Normalizada: 0.000
+Informação Mútua: 0.000
+Índice Fowlkes-Mallows: 0.742
+Coeficiente Calinski-Harabaz: 2.938
+Coeficiente Silhueta: -0.157
+
+Medidas Obtidas Usando o KMeans de 5 Clusters, os Dados de Treinamento, e os Dois Componentes Principais
+Homogeneidade: 1.000
+Completude: 0.000
+V-medida: 0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: 0.000
+Informação Mútua Normalizada: 0.000
+Informação Mútua: 0.000
+Índice Fowlkes-Mallows: 0.742
+Coeficiente Calinski-Harabaz: 2.938
+Coeficiente Silhueta: -0.157
+
+Medidas Obtidas Usando o KMeans de 8 Clusters, os Dados de Treinamento, e os Dois Componentes Principais
+Homogeneidade: 1.000
+Completude: -0.000
+V-medida: -0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: 0.000
+Informação Mútua Normalizada: -0.000
+Informação Mútua: -0.000
+Índice Fowlkes-Mallows: 0.495
+Coeficiente Calinski-Harabaz: 881.060
+Coeficiente Silhueta: 0.309
+
+Medidas Obtidas Usando o KMeans de 3 Clusters, os Dados de Treinamento, e os Dois Componentes Principais
+Homogeneidade: 1.000
+Completude: 0.000
+V-medida: 0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: -0.000
+Informação Mútua Normalizada: 0.000
+Informação Mútua: 0.000
+Índice Fowlkes-Mallows: 0.707
+Coeficiente Calinski-Harabaz: 872.463
+Coeficiente Silhueta: 0.337
+
+Medidas Obtidas Usando o DBSCAN, os Dados de Teste, e os Dois Componentes Principais
+Número estimado de grupos: 2
+Número estimado de outliers: 282
+Homogeneidade: 1.000
+Completude: 0.000
+V-medida: 0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: 0.000
+Informação Mútua Normalizada: 0.000
+Informação Mútua: 0.000
+Índice Fowlkes-Mallows: 0.780
+
+Medidas Obtidas Usando o KMeans de 5 Clusters, os Dados de Teste, e os Dois Componentes Principais
+Homogeneidade: 1.000
+Completude: 0.000
+V-medida: 0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: 0.000
+Informação Mútua Normalizada: 0.000
+Informação Mútua: 0.000
+Índice Fowlkes-Mallows: 0.780
+
+Medidas Obtidas Usando o KMeans de 8 Clusters, os Dados de Teste, e os Dois Componentes Principais
+Homogeneidade: 1.000
+Completude: 0.000
+V-medida: 0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: 0.000
+Informação Mútua Normalizada: 0.000
+Informação Mútua: 0.000
+Índice Fowlkes-Mallows: 0.445
+
+Medidas Obtidas Usando o KMeans de 3 Clusters, os Dados de Teste, e os Dois Componentes Principais
+Homogeneidade: 1.000
+Completude: 0.000
+V-medida: 0.000
+Índice Rand Ajustado: 0.000
+Informação Mútua Ajustada: 0.000
+Informação Mútua Normalizada: 0.000
+Informação Mútua: 0.000
+Índice Fowlkes-Mallows: 0.650
