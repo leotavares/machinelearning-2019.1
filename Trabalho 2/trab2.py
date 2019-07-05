@@ -1,6 +1,6 @@
 #Este software foi implementado usando um ambiente Debian 9.9,
 #com Python 3 na versão 3.5.3, Pandas 0.19.2, NumPy 1.12.1,
-#Scikit-Learn 0.18 e Matplotlib 2.0.0
+#Scikit-Learn 0.18, Matplotlib 2.0.0 e o Jupyter Notebook 4.2.3
 #Compatibilidade com versões posteriores não é garantida
 
 #carrega as bibliotecas a serem utilizadas
@@ -454,7 +454,7 @@ print("Informação Mútua Ajustada: %0.3f" % metrics.adjusted_mutual_info_score
 print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
 print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
 print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
-#print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
+print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
 #print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
 #print("Coeficiente Silhueta Para Cada Amostra: %0.3f" % metrics.silhouette_samples(principalComponents, labels))
 
@@ -471,7 +471,7 @@ arquivo.write("Informação Mútua Ajustada: %0.3f\n" % metrics.adjusted_mutual_
 arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
 arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
 arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels))
-#arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
+arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
 #arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(principalComponents, labels))
 #arquivo.write("Coeficiente Silhueta Para Cada Amostra: %0.3f\n" % metrics.silhouette_samples(principalComponents, labels))
 
@@ -510,7 +510,7 @@ print("Informação Mútua Ajustada: %0.3f" % metrics.adjusted_mutual_info_score
 print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
 print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
 print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
-#print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
+print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
 #print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
 #print("Coeficiente Silhueta Para Cada Amostra: %0.3f" % metrics.silhouette_samples(principalComponents, labels))
 
@@ -525,7 +525,7 @@ arquivo.write("Informação Mútua Ajustada: %0.3f\n" % metrics.adjusted_mutual_
 arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
 arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
 arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels))
-#arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
+arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
 #arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(principalComponents, labels))
 #arquivo.write("Coeficiente Silhueta Para Cada Amostra: %0.3f\n" % metrics.silhouette_samples(principalComponents, labels))
 
@@ -559,7 +559,7 @@ for name, est in estimators:
     print("Informação Mútua Normalizada: %0.3f" % metrics.normalized_mutual_info_score(labels_true, labels))
     print("Informação Mútua: %0.3f" % metrics.mutual_info_score(labels_true, labels))
     print("Índice Fowlkes-Mallows: %0.3f" % metrics.fowlkes_mallows_score(labels_true, labels))
-   #print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
+    print("Coeficiente Calinski-Harabaz: %0.3f" % metrics.calinski_harabaz_score(principalComponents, labels))
    #print("Coeficiente Silhueta: %0.3f" % metrics.silhouette_score(principalComponents, labels))
    #print("Coeficiente Silhueta Para Cada Amostra: %0.3f" % metrics.silhouette_samples(principalComponents, labels))
 
@@ -574,7 +574,7 @@ for name, est in estimators:
     arquivo.write("Informação Mútua Normalizada: %0.3f\n" % metrics.normalized_mutual_info_score(labels_true, labels))
     arquivo.write("Informação Mútua: %0.3f\n" % metrics.mutual_info_score(labels_true, labels))
     arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score(labels_true, labels))
-   #arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
+    arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(principalComponents, labels))
    #arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(principalComponents, labels))
    #arquivo.write("Coeficiente Silhueta Para Cada Amostra: %0.3f\n" % metrics.silhouette_samples(principalComponents, labels))
 
