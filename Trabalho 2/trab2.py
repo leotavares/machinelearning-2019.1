@@ -177,6 +177,7 @@ arquivo.write("Índice Fowlkes-Mallows: %0.3f\n" % metrics.fowlkes_mallows_score
 arquivo.write("Coeficiente Calinski-Harabaz: %0.3f\n" % metrics.calinski_harabaz_score(X_train, labels))
 arquivo.write("Coeficiente Silhueta: %0.3f\n" % metrics.silhouette_score(X_train, labels))
 
+#esta parte plota um gráfico com o KMeans de 5 clusters, a partição 1 e os todos os componentes da partição
 plt.scatter(X_train[:, 0], X_train[:, 1], c=labels.astype(np.float))
 plt.title("Divisão em grupos estimada")
 plt.show()
@@ -248,13 +249,14 @@ principalComponents = pd.DataFrame(pca.fit_transform(x))
 principalComponents.plot.scatter(x=0,y=1)
 plt.show()
 
+#aqui são criadas as séries a serem usadas nas próximas comparações
 df_class = pd.DataFrame(y_train)
 principalComponents_train = pd.concat([principalComponents,df_class],axis=1)
 
+labels_true = np.array(y_train)
+
 #aqui é executado o algoritmo de agrupamento baseado em densidade DBSCAN para os 2 componentes principais
 #o valor eps=0.17 obteve o melhor resultado conforme visualização gráfica
-
-labels_true = np.array(y_train)
 
 db = DBSCAN(eps=0.17, min_samples=10).fit(principalComponents)
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
@@ -368,7 +370,7 @@ estimators = [('k_means_8', KMeans(n_clusters=8)),
 
 fignum = 0
 fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(4,6))
-fig.subplots_adjust(hspace=0.7)
+fig.subplots_adjust(hspace=0.2)
 titles = ['8 Clusters', '3 Clusters']
 for name, est in estimators:
     est.fit(principalComponents)
@@ -422,14 +424,14 @@ principalComponents = pd.DataFrame(pca.fit_transform(x))
 principalComponents.plot.scatter(x=0,y=1)
 plt.show()
 
+#aqui são criadas as séries a serem usadas nas próximas comparações
 df_class = pd.DataFrame(y_test)
 principalComponents_test = pd.concat([principalComponents,df_class],axis=1)
-
+labels_true = np.array(y_test)
 
 #aqui é executado o algoritmo de agrupamento baseado em densidade DBSCAN
 #usando a Partição 2 e os Dois Componentes Principais
 #o valor eps=0.20 obteve o melhor resultado conforme visualização gráfica
-labels_true = np.array(y_test)
 
 db = DBSCAN(eps=0.20, min_samples=10).fit(principalComponents)
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
@@ -540,7 +542,7 @@ estimators = [('k_means_8', KMeans(n_clusters=8)),
 
 fignum = 0
 fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(4,6))
-fig.subplots_adjust(hspace=0.7)
+fig.subplots_adjust(hspace=0.2)
 titles = ['8 Clusters', '3 Clusters']
 for name, est in estimators:
     est.fit(principalComponents)
